@@ -10,13 +10,13 @@ type Book {
 }
 
 type Author {
-  id: ID!
   name: String!
   country: String!
 }
 
 type Query {
   books: [Book!]!
+  bookId(id: ID!): Book
 }
 
 input NewBook {

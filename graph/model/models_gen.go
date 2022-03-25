@@ -3,7 +3,6 @@
 package model
 
 type Author struct {
-	ID      string `json:"id"`
 	Name    string `json:"name"`
 	Country string `json:"country"`
 }
