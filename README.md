@@ -12,3 +12,7 @@ more info <a href="https://www.dicoding.com/blog/graphql-api-vs-rest-api-apa-bed
 (Sumber: https://www.dicoding.com/blog/graphql-api-vs-rest-api-apa-bedanya)
 </p>
 
+### Command To Use
+
+Documentation library <a href="https://gqlgen.com/getting-started/"><b>here</b></a><br>
+Github Library <a href="https://github.com/99designs/gqlgen/"><b>here</b></a>
