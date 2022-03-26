@@ -28,15 +28,18 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.NewBook) 
 // Fungsi untuk meng-update data buku
 func (r *mutationResolver) UpdateBook(ctx context.Context, input model.NewBook, id string) (*model.Book, error) {
 	var idBook int = -1
+	// Cari buku yang id bukunya sama dengan id
 	for i := 0; i < len(r.books); i++ {
 		if r.books[i].ID == id {
 			idBook = i
 			break
 		}
 	}
+	// Jika id buku tidak ditemukan
 	if idBook == -1 {
 		return nil, fmt.Errorf("book not found")
 	}
+	// Jika buku ditemukan, perbaharui isi informasi buku
 	r.books[idBook] = &model.Book{
 		ID:     id,
 		Code:   input.Code,
@@ -53,11 +56,14 @@ func (r *queryResolver) Books(ctx context.Context) ([]*model.Book, error) {
 
 // Fungsi untuk menampilkan informasi buku pada id buku tertentu
 func (r *queryResolver) BookID(ctx context.Context, id string) (*model.Book, error) {
+	// Cari buku dengan id buku sama dengan id
 	for i := 0; i < len(r.books); i++ {
 		if r.books[i].ID == id {
+			// Jika ketemu, kembalikan informasi buku
 			return r.books[i], nil
 		}
 	}
+	// Jika buku tidak ditemukan, kembalikan  pesan error
 	return nil, fmt.Errorf("file book not found")
 }
 
