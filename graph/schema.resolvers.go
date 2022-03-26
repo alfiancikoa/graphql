@@ -30,36 +30,35 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.NewBook) 
 }
 
 func (r *mutationResolver) UpdateBook(ctx context.Context, input model.NewBook, id string) (*model.Book, error) {
-	var idBook int = -1
 	// Cari buku yang id bukunya sama dengan id
 	for i := 0; i < len(r.books); i++ {
+		// Jika buku ditemukan, perbaharui isi informasi buku
 		if r.books[i].ID == id {
-			idBook = i
-			break
+			r.books[i] = &model.Book{
+				ID:     id,
+				Code:   input.Code,
+				Title:  input.Title,
+				Author: &model.Author{Name: input.AuthorName, Country: input.AuthorCountry},
+			}
+			return r.books[i], nil
 		}
 	}
-	// Jika id buku tidak ditemukan
-	if idBook == -1 {
-		return nil, fmt.Errorf("book not found")
-	}
-	// Jika buku ditemukan, perbaharui isi informasi buku
-	r.books[idBook] = &model.Book{
-		ID:     id,
-		Code:   input.Code,
-		Title:  input.Title,
-		Author: &model.Author{Name: input.AuthorName, Country: input.AuthorCountry},
-	}
-	return r.books[idBook], nil
+	// Jika id buku tidak ditemukan tampilkan pesan error
+	return nil, fmt.Errorf("book not found")
 }
 
+// Fungsi untuk menghapus atau delete suatu buku berdasarkan id bukunya
 func (r *mutationResolver) DeleteBook(ctx context.Context, id string) (*model.Book, error) {
+	// Cari buku yang id bukunya sama dengan id
 	for i := 0; i < len(r.books); i++ {
+		// Jika buku ditemukan, hapus buku tersebut
 		if r.books[i].ID == id {
 			delBook := r.books[i]
 			r.books = append(r.books[:i], r.books[i+1:]...)
 			return delBook, nil
 		}
 	}
+	// Jika id buku tidak ditemukan tampilkan pesan error
 	return nil, fmt.Errorf("book not found")
 }
 
