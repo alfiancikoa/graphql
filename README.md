@@ -1,6 +1,6 @@
 # GraphQL Basic
 
-Documentation graphql <a href="https://graphql.org"><b>here</b></a> 
+Doc of graphql <a href="https://graphql.org"><b>here</b></a> 
 
 ## Apa itu GraphQL ?
 
