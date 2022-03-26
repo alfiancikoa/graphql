@@ -13,24 +13,29 @@ import (
 
 // Fungsi untuk menambahkan buku baru
 func (r *mutationResolver) CreateBook(ctx context.Context, input model.NewBook) (*model.Book, error) {
+	// Fetch data new Book
 	book := &model.Book{
 		ID:     fmt.Sprintf("%d", len(r.books)+1),
 		Code:   input.Code,
 		Title:  input.Title,
 		Author: &model.Author{Name: input.AuthorName, Country: input.AuthorCountry},
 	}
+	// Tambahkan ke dalam slice dengan menggunakan append
 	r.books = append(r.books, book)
 	return book, nil
 }
 
 // Fungsi untuk meng-update data buku
 func (r *mutationResolver) UpdateBook(ctx context.Context, input model.NewBook, id string) (*model.Book, error) {
-	var idBook int
+	var idBook int = -1
 	for i := 0; i < len(r.books); i++ {
 		if r.books[i].ID == id {
 			idBook = i
 			break
 		}
+	}
+	if idBook == -1 {
+		return nil, fmt.Errorf("book not found")
 	}
 	r.books[idBook] = &model.Book{
 		ID:     id,
