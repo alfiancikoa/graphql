@@ -12,7 +12,39 @@ more info <a href="https://www.dicoding.com/blog/graphql-api-vs-rest-api-apa-bed
 (Sumber: https://www.dicoding.com/blog/graphql-api-vs-rest-api-apa-bedanya)
 </p>
 
-### Command To Use
+## Command To Use
+
+### Set up Project
+ 
+- Membuat file workspace
+
+```
+mkdir graphql-server
+cd graphql-server
+go mod init github.com/[username]/graphql-server
+```
+
+- Kemudian buat file ```tools.go``` dan tambahkan gqlgen sebagai dependensi alat untuk modul.
+
+```
+//go:build tools
+// +build tools
+
+package tools
+
+import (
+	_ "github.com/99designs/gqlgen"
+)
+```
+
+- Download library gqlgen dari 99design
+
+```
+$ go get github.com/99designs/gqlgen
+```
+
+- 
 
 Doc gqlgen library <a href="https://gqlgen.com/getting-started/"><b>here</b></a><br>
 Github gqlgen Library <a href="https://github.com/99designs/gqlgen/"><b>here</b></a>
+
