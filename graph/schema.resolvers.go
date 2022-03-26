@@ -11,6 +11,7 @@ import (
 	"github.com/alfiancikoa/graphql-server/graph/model"
 )
 
+// Fungsi untuk menambahkan buku baru
 func (r *mutationResolver) CreateBook(ctx context.Context, input model.NewBook) (*model.Book, error) {
 	book := &model.Book{
 		ID:     fmt.Sprintf("%d", len(r.books)+1),
@@ -22,6 +23,7 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.NewBook) 
 	return book, nil
 }
 
+// Fungsi untuk meng-update data buku
 func (r *mutationResolver) UpdateBook(ctx context.Context, input model.NewBook, id string) (*model.Book, error) {
 	var idBook int
 	for i := 0; i < len(r.books); i++ {
@@ -39,10 +41,12 @@ func (r *mutationResolver) UpdateBook(ctx context.Context, input model.NewBook, 
 	return r.books[idBook], nil
 }
 
+// Fungsi untuk meenampilkan seluruh buku
 func (r *queryResolver) Books(ctx context.Context) ([]*model.Book, error) {
 	return r.books, nil
 }
 
+// Fungsi untuk menampilkan informasi buku pada id buku tertentu
 func (r *queryResolver) BookID(ctx context.Context, id string) (*model.Book, error) {
 	for i := 0; i < len(r.books); i++ {
 		if r.books[i].ID == id {
