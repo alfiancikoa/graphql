@@ -22,6 +22,23 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.NewBook) 
 	return book, nil
 }
 
+func (r *mutationResolver) UpdateBook(ctx context.Context, input model.NewBook, id string) (*model.Book, error) {
+	var idBook int
+	for i := 0; i < len(r.books); i++ {
+		if r.books[i].ID == id {
+			idBook = i
+			break
+		}
+	}
+	r.books[idBook] = &model.Book{
+		ID:     id,
+		Code:   input.Code,
+		Title:  input.Title,
+		Author: &model.Author{Name: input.AuthorName, Country: input.AuthorCountry},
+	}
+	return r.books[idBook], nil
+}
+
 func (r *queryResolver) Books(ctx context.Context) ([]*model.Book, error) {
 	return r.books, nil
 }
