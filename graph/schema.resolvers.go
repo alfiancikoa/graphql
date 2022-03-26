@@ -6,16 +6,20 @@ package graph
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	"github.com/alfiancikoa/graphql-server/graph/generated"
 	"github.com/alfiancikoa/graphql-server/graph/model"
 )
 
-// Fungsi untuk menambahkan buku baru
 func (r *mutationResolver) CreateBook(ctx context.Context, input model.NewBook) (*model.Book, error) {
 	// Fetch data new Book
+	var bookId int
+	if len(r.books) > 0 {
+		bookId, _ = strconv.Atoi(r.books[len(r.books)-1].ID)
+	}
 	book := &model.Book{
-		ID:     fmt.Sprintf("%d", len(r.books)+1),
+		ID:     fmt.Sprintf("%d", bookId+1),
 		Code:   input.Code,
 		Title:  input.Title,
 		Author: &model.Author{Name: input.AuthorName, Country: input.AuthorCountry},
@@ -25,7 +29,6 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.NewBook) 
 	return book, nil
 }
 
-// Fungsi untuk meng-update data buku
 func (r *mutationResolver) UpdateBook(ctx context.Context, input model.NewBook, id string) (*model.Book, error) {
 	var idBook int = -1
 	// Cari buku yang id bukunya sama dengan id
@@ -49,12 +52,21 @@ func (r *mutationResolver) UpdateBook(ctx context.Context, input model.NewBook, 
 	return r.books[idBook], nil
 }
 
-// Fungsi untuk meenampilkan seluruh buku
+func (r *mutationResolver) DeleteBook(ctx context.Context, id string) (*model.Book, error) {
+	for i := 0; i < len(r.books); i++ {
+		if r.books[i].ID == id {
+			delBook := r.books[i]
+			r.books = append(r.books[:i], r.books[i+1:]...)
+			return delBook, nil
+		}
+	}
+	return nil, fmt.Errorf("book not found")
+}
+
 func (r *queryResolver) Books(ctx context.Context) ([]*model.Book, error) {
 	return r.books, nil
 }
 
-// Fungsi untuk menampilkan informasi buku pada id buku tertentu
 func (r *queryResolver) BookID(ctx context.Context, id string) (*model.Book, error) {
 	// Cari buku dengan id buku sama dengan id
 	for i := 0; i < len(r.books); i++ {

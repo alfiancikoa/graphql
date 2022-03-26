@@ -29,4 +29,5 @@ input NewBook {
 type Mutation {
   createBook(input: NewBook!): Book!
   updateBook(input: NewBook!, id:ID!): Book!
+  deleteBook(id:ID!): Book!
 }
